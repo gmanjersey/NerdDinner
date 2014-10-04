@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using NerdDinner.Models;
+using NerdDinner.Helpers;
 
 namespace NerdDinner.Controllers
 {
@@ -67,11 +68,7 @@ namespace NerdDinner.Controllers
             }
             catch
             {
-                foreach (var issue in dinner.GetRuleViolations())
-                {
-                    ModelState.AddModelError(issue.PropertyName, issue.ErrorMessage);
-                }
-
+                ModelState.AddRuleViolations(dinner.GetRuleViolations());
                 return View(dinner);
             }
             
