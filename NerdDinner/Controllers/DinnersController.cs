@@ -36,5 +36,16 @@ namespace NerdDinner.Controllers
                 return View(dinner);
         }
 
+        //GET /Dinner/Edit/2
+
+        public ActionResult Edit(int id)
+        {
+            var dinner = dinnerRepository.GetDinner(id);
+            return View(dinner);
+        }
+
+
+
+
     }
 }
