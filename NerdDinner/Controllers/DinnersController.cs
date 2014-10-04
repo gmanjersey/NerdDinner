@@ -21,7 +21,7 @@ namespace NerdDinner.Controllers
            //Response.Write("<h1>Coming Soon: Dinners</h1>");
 
             var dinners = dinnerRepository.FindUpComingDinners().ToList();
-            return View("Index", dinners);
+            return View(dinners);
         }
 
 
@@ -33,7 +33,7 @@ namespace NerdDinner.Controllers
             if (dinner == null)
                 return View("NotFound");
             else
-                return View("Details", dinner);
+                return View(dinner);
         }
 
     }
