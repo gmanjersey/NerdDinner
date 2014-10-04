@@ -30,8 +30,8 @@
             </p>
             <p>
                 <label for="Address">Address:</label>
-                <%= Html.TextBox("Address") %>
-                <%= Html.ValidationMessage("Address", "*") %>
+                <%=Html.TextBox("Address") %>
+                <%=Html.ValidationMessage("Address", "*") %>
             </p>
             <p>
                 <label for="Country">Country:</label>
