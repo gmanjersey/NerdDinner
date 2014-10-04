@@ -52,7 +52,10 @@ namespace NerdDinner.Controllers
             //Retrieve existing dinner
             Dinner dinner = dinnerRepository.GetDinner(id);
 
-            //Update dinner with controller Base Class UpdateModel:
+            //handle errors gracefully and let user know what failed validation:
+            try
+            {
+              //Update dinner with controller Base Class UpdateModel:
             UpdateModel(dinner);
 
             //Persist changes back to database
@@ -60,6 +63,18 @@ namespace NerdDinner.Controllers
 
             //Perform Http redirect to details page for the saved Dinner
             return RedirectToAction("Details", new { id = dinner.DinnerId });
+
+            }
+            catch
+            {
+                foreach (var issue in dinner.GetRuleViolations())
+                {
+                    ModelState.AddModelError(issue.PropertyName, issue.ErrorMessage);
+                }
+
+                return View(dinner);
+            }
+            
         }
 
 
