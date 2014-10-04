@@ -1,100 +1,21 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<NerdDinner.Models.Dinner>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Index
+	UpComing Dinners
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
-    <h2>Index</h2>
-
-    <table>
-        <tr>
-            <th></th>
-            <th>
-                DinnerId
-            </th>
-            <th>
-                Title
-            </th>
-            <th>
-                EventDate
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                HostedBy
-            </th>
-            <th>
-                ContactPhone
-            </th>
-            <th>
-                Address
-            </th>
-            <th>
-                Country
-            </th>
-            <th>
-                Latitude
-            </th>
-            <th>
-                Longitude
-            </th>
-            <th>
-                IsValid
-            </th>
-        </tr>
-
-    <% foreach (var item in Model) { %>
-    
-        <tr>
-            <td>
-                <%= Html.ActionLink("Edit", "Edit", new { id=item.DinnerId }) %> |
-                <%= Html.ActionLink("Details", "Details", new { id=item.DinnerId })%>
-            </td>
-            <td>
-                <%= Html.Encode(item.DinnerId) %>
-            </td>
-            <td>
-                <%= Html.Encode(item.Title) %>
-            </td>
-            <td>
-                <%= Html.Encode(String.Format("{0:g}", item.EventDate)) %>
-            </td>
-            <td>
-                <%= Html.Encode(item.Description) %>
-            </td>
-            <td>
-                <%= Html.Encode(item.HostedBy) %>
-            </td>
-            <td>
-                <%= Html.Encode(item.ContactPhone) %>
-            </td>
-            <td>
-                <%= Html.Encode(item.Address) %>
-            </td>
-            <td>
-                <%= Html.Encode(item.Country) %>
-            </td>
-            <td>
-                <%= Html.Encode(String.Format("{0:F}", item.Latitude)) %>
-            </td>
-            <td>
-                <%= Html.Encode(String.Format("{0:F}", item.Longitude)) %>
-            </td>
-            <td>
-                <%= Html.Encode(item.IsValid) %>
-            </td>
-        </tr>
-    
-    <% } %>
-
-    </table>
-
-    <p>
-        <%= Html.ActionLink("Create New", "Create") %>
-    </p>
-
+    <h2>UpComing Dinners</h2>
+    <ul>
+     <% foreach (var dinner in Model){%>
+       <li>
+         <%= Html.Encode(dinner.Title) %>    
+         on
+         <%= Html.Encode(dinner.EventDate.Value.ToShortDateString()) %>
+         @
+         <%= Html.Encode(dinner.EventDate.Value.ToShortTimeString()) %>
+       </li>
+     <%}%>
+    </ul>
 </asp:Content>
 
