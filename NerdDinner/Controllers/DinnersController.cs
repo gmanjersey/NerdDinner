@@ -9,6 +9,37 @@ using NerdDinner.Helpers;
 
 namespace NerdDinner.Controllers
 {
+      // ViewModel Classes
+
+     public class DinnerFormViewModel
+    {
+
+
+
+        // Properties
+
+        public Dinner Dinner { get; private set; }
+
+        public SelectList Countries { get; private set; }
+
+
+
+        // Constructor
+
+        public DinnerFormViewModel(Dinner dinner)
+        {
+
+            Dinner = dinner;
+
+            Countries = new SelectList(PhoneValidator.Countries, Dinner.Country);
+
+        }
+
+    }
+
+
+    
+    
     public class DinnersController : Controller
     {
 
@@ -38,11 +69,15 @@ namespace NerdDinner.Controllers
         }
 
         //GET /Dinner/Edit/2
-
+        //[Authorize]
         public ActionResult Edit(int id)
         {
             var dinner = dinnerRepository.GetDinner(id);
-            return View(dinner);
+
+            //ViewData
+            ViewData["countries"] = new SelectList(PhoneValidator.Countries, dinner.Country);
+
+            return View(new DinnerFormViewModel(dinner));
         }
 
         //Post /Dinners/Edit/2
@@ -72,7 +107,9 @@ namespace NerdDinner.Controllers
             catch
             {
                 ModelState.AddRuleViolations(dinner.GetRuleViolations());
-                return View(dinner);
+                //ViewData
+                ViewData["countries"] = new SelectList(PhoneValidator.Countries, dinner.Country);
+                return View(new DinnerFormViewModel(dinner));
             }
             
         }
@@ -81,7 +118,7 @@ namespace NerdDinner.Controllers
         public ActionResult Create()
         {
             Dinner dinner = new Dinner() { EventDate = DateTime.Now.AddDays(7) };
-            return View(dinner);
+            return View(new DinnerFormViewModel(dinner));
         }
 
         //Post: /Dinners/Create
@@ -105,7 +142,7 @@ namespace NerdDinner.Controllers
                     ModelState.AddRuleViolations(dinner.GetRuleViolations());
                 }
             }
-           return View(dinner);
+            return View(new DinnerFormViewModel(dinner));
         }
 
         //HTTP GET: /Diners/Delete/1

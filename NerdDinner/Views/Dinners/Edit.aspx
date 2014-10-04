@@ -35,7 +35,7 @@
             </p>
             <p>
                 <label for="Country">Country:</label>
-                <%= Html.TextBox("Country") %>
+                <%= Html.DropDownList("Country",ViewData["Countries"] as SelectList) %>
                 <%= Html.ValidationMessage("Country", "*") %>
             </p>
             <p>
