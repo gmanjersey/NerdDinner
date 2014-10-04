@@ -12,9 +12,14 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Data.Linq;
 using NerdDinner.Helpers;
+using System.Web.Mvc;
 
 namespace NerdDinner.Models
 {
+    //The below are useful for object types that we do not own!
+    //1. Bind at the class level will put Lockdown on any field listed in an Exclude for both UpdateModel or Object parameter)
+    //2. We can do it in Global.asax 
+    [Bind(Include="Title,Description,EventDate,Address,Country,ContactPhone,Latitude,Longitude")]
     public partial class Dinner
     {
         public bool IsValid

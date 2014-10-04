@@ -57,6 +57,9 @@ namespace NerdDinner.Controllers
             try
             {
               //Update dinner with controller Base Class UpdateModel:
+                  //Locking down the UpdateModel to update only fields specified in allowed properties
+                 //string[] allowedProperties = new []{"Title", "Description", "ContactPhone", "..."}
+                 //UpdateModel(dinner, allowedProperties);
             UpdateModel(dinner);
 
             //Persist changes back to database
@@ -83,6 +86,7 @@ namespace NerdDinner.Controllers
 
         //Post: /Dinners/Create
         [AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult Create( [Bind(Include=Title,Address")]Dinner dinner) //locking down bind on object passed as parameter to only update Include Fields
         public ActionResult Create(Dinner dinner)
         {
             if (ModelState.IsValid)
