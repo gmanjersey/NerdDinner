@@ -83,25 +83,25 @@ namespace NerdDinner.Controllers
 
         //Post: /Dinners/Create
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(FormCollection formValues)
+        public ActionResult Create(Dinner dinner)
         {
-            Dinner dinner = new Dinner();
-
-            try
+            if (ModelState.IsValid)
             {
-                dinner.HostedBy = "SomeUser";
+                try
+                {
+                    dinner.HostedBy = "SomeUser";
 
-                dinnerRepository.Add(dinner);
-                dinnerRepository.Save();
+                    dinnerRepository.Add(dinner);
+                    dinnerRepository.Save();
 
-                return RedirectToAction("Details", new {Id= dinner.DinnerId});
-
+                    return RedirectToAction("Details", new { Id = dinner.DinnerId });
+                }
+                catch
+                {
+                    ModelState.AddRuleViolations(dinner.GetRuleViolations());
+                }
             }
-            catch{
-               ModelState.AddRuleViolations(dinner.GetRuleViolations());
-            }
-
-            return View(dinner);
+           return View(dinner);
         }
 
     }
