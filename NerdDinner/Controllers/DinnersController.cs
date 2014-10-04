@@ -74,10 +74,33 @@ namespace NerdDinner.Controllers
             
         }
 
-
+        //Get: /Dinners/Create
         public ActionResult Create()
         {
             Dinner dinner = new Dinner() { EventDate = DateTime.Now.AddDays(7) };
+            return View(dinner);
+        }
+
+        //Post: /Dinners/Create
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create(FormCollection formValues)
+        {
+            Dinner dinner = new Dinner();
+
+            try
+            {
+                dinner.HostedBy = "SomeUser";
+
+                dinnerRepository.Add(dinner);
+                dinnerRepository.Save();
+
+                return RedirectToAction("Details", new {Id= dinner.DinnerId});
+
+            }
+            catch{
+               ModelState.AddRuleViolations(dinner.GetRuleViolations());
+            }
+
             return View(dinner);
         }
 
