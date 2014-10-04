@@ -9,7 +9,7 @@
     <ul>
      <% foreach (var dinner in Model){%>
        <li>
-         <%= Html.Encode(dinner.Title) %>    
+         <%= Html.ActionLink(dinner.Title, "Details", new {Id=dinner.DinnerId})%>    
          on
          <%= Html.Encode(dinner.EventDate.Value.ToShortDateString()) %>
          @
