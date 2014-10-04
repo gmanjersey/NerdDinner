@@ -88,6 +88,7 @@
     </Content>
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Views\Dinners\Create.aspx" />
     <Content Include="Views\Dinners\Details.aspx" />
     <Content Include="Views\Dinners\Edit.aspx" />
     <Content Include="Views\Dinners\Index.aspx" />
