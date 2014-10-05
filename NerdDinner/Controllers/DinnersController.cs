@@ -48,12 +48,17 @@ namespace NerdDinner.Controllers
         // GET: /Dinners/
 
         //ActionResult Index
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
            //Response.Write("<h1>Coming Soon: Dinners</h1>");
 
-            var dinners = dinnerRepository.FindUpComingDinners().ToList();
-            return View(dinners);
+            var upComingDinners = dinnerRepository.FindUpComingDinners();
+
+            //adding paging
+            const int pageSize = 10;
+
+            var paginatedDinners = new PaginatedList<Dinner>(upComingDinners, page ?? 0, pageSize);
+            return View(paginatedDinners);
         }
 
 
