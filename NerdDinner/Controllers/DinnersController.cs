@@ -79,6 +79,8 @@ namespace NerdDinner.Controllers
         {
             var dinner = dinnerRepository.GetDinner(id);
 
+            if (!dinner.IsHostedBy(User.Identity.Name))
+                return View("InvalidOwner");
             //ViewData
             ViewData["countries"] = new SelectList(PhoneValidator.Countries, dinner.Country);
 
@@ -92,6 +94,9 @@ namespace NerdDinner.Controllers
             
             //Retrieve existing dinner
             Dinner dinner = dinnerRepository.GetDinner(id);
+
+            if (!dinner.IsHostedBy(User.Identity.Name))
+                return View("InvalidOwner");
 
             //handle errors gracefully and let user know what failed validation:
             try
@@ -120,6 +125,7 @@ namespace NerdDinner.Controllers
         }
 
         //Get: /Dinners/Create
+        [Authorize]
         public ActionResult Create()
         {
             Dinner dinner = new Dinner() { EventDate = DateTime.Now.AddDays(7) };
@@ -127,7 +133,7 @@ namespace NerdDinner.Controllers
         }
 
         //Post: /Dinners/Create
-        [AcceptVerbs(HttpVerbs.Post)]
+        [AcceptVerbs(HttpVerbs.Post), Authorize]
         //public ActionResult Create( [Bind(Include=Title,Address")]Dinner dinner) //locking down bind on object passed as parameter to only update Include Fields
         public ActionResult Create(Dinner dinner)
         {
@@ -135,7 +141,11 @@ namespace NerdDinner.Controllers
             {
                 try
                 {
-                    dinner.HostedBy = "SomeUser";
+                    dinner.HostedBy = User.Identity.Name;
+
+                    rsvp reserve = new rsvp();
+                    reserve.AttendeeName = User.Identity.Name;
+                    dinner.rsvps.Add(reserve);
 
                     dinnerRepository.Add(dinner);
                     dinnerRepository.Save();

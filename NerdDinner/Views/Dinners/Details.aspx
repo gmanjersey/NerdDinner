@@ -27,9 +27,30 @@
           <%= Html.Encode(Model.HostedBy) %>
          (<%=Html.Encode(Model.ContactPhone) %>)
       </p>
+      <% if (Request.IsAuthenticated)
+         { %>
+         <% if (Model.IsUserRegistered(Context.User.Identity.Name))
+            { %>
+              <p>You are registered for this event!</p>
+           <%}
+            else
+            {%>
+            <!-- will use Ajax here if user is not registered-->
+              <p>You are (not) registered for this event.</p>
+           <%} %>
+      
+      <%}
+         else
+         { %>
+           <a href="/Account/Logon">Logon</a> to RSVP for this event.
+      
+        <%} %>
+      
     <p>
-        <%=Html.ActionLink("Edit Dinner", "Edit", new { id=Model.DinnerId }) %> |
-        <%=Html.ActionLink("Delete Dinner", "Delete", new {id= Model.DinnerId} ) %>
+        <% if (Model.IsHostedBy(Context.User.Identity.Name)){ %>
+            <%=Html.ActionLink("Edit Dinner", "Edit", new { id=Model.DinnerId }) %> |
+            <%=Html.ActionLink("Delete Dinner", "Delete", new {id= Model.DinnerId} ) %>
+        <%}%>
     </p>
 </asp:Content>
 
